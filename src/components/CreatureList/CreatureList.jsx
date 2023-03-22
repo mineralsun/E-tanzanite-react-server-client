@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 // We must import axios in each component we want to use it
 import axios from 'axios';
+import CreatureForm from './CreatureForm.jsx';
 
 function CreatureList() {
     const [creatureName, setCreatureName] = useState('');
@@ -23,43 +24,25 @@ function CreatureList() {
         fetchCreatureList();
     }, []); // ! Remember the empty Array
 
-    const submitForm = (e) => {
-        e.preventDefault();
-        axios.post('/creature', {
-            name: creatureName,
-            origin: creatureOrigin
-        }).then((response) => {
-            //Clear input fields
-            setCreatureName('');
-            setCreatureOrigin('');
-            fetchCreatureList();
-        }).catch((error) => {
-            console.log(`Error in POST ${error}`);
-            alert('Something went wrong!');
-        })
-    }
     // All components return what
     // you want them to display.
     return (
         <div>
+            <CreatureForm 
+                creatureName={creatureName}
+                setCreatureName={setCreatureName}
+                creatureOrigin={creatureOrigin}
+                setCreatureOrigin={setCreatureOrigin}
+                fetchCreatureList ={fetchCreatureList}
+            />
+
             <h2>Creature List</h2>
             {/* {
                 // This turns our Arry into a string
                 // (for testing only!)
                 JSON.stringify(listOfCreatures)
             } */}
-            <form onSubmit={submitForm}>
-                Name:
-                <input type="text"
-                       value={creatureName}
-                       onChange={(e) => setCreatureName(e.target.value)} />
-                <br />
-                Origin:
-                <input type="text"
-                       value={creatureOrigin}
-                       onChange={(e) => setCreatureOrigin(e.target.value)} />
-                <input type="submit" />
-            </form>
+            
             <ul>
                 {
                     listOfCreatures.map((creature) => (
