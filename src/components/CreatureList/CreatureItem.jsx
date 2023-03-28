@@ -19,6 +19,8 @@ function CreatureItem({ creature, creatureName, fetchCreatureList }) {
 
     }
 
+    // Conditional rendering
+    // This is much easier after creating a CreatureItem component
     const getDecoration = () => {
         if( creature.name === 'a') {
             return 'line-through';
