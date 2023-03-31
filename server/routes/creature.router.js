@@ -37,5 +37,21 @@ router.post('/', (req, res) => {
         })
 })
 
+// PUT /creature/sighting/3
+router.put('/sighting/:id', (req, res) => {
+    const creatureId = req.params.id;
+    console.log(`PUT /sighting ${creatureId}`);
+    // Increase the sighting by 1 for the creature matching
+    // the id passed in the URL.
+    const queryText = `UPDATE "creatures"
+                       SET "sightings" = "sightings" + 1
+                       WHERE "id" = $1;`;
+    pool.query(queryText, [creatureId]).then(results => {
+        res.sendStatus(200);
+    }).catch(error => {
+        console.log(`Error in PUT /sighting ${error}`);
+        res.sendStatus(500);
+    });
+});
 
 module.exports = router;
